@@ -1,4 +1,5 @@
 type CommonConfig = {
+  // Notice: if `statePath` is optional and const `elements` has not provide `statePath`, there will be compilation error
   statePath: string
 }
 
