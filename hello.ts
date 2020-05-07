@@ -1,37 +1,25 @@
-type CommonConfig = {
-  // Notice: if `statePath` is optional and const `elements` has not provide `statePath`, there will be compilation error
-  statePath: string
+export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> };
+
+export type DeepNoExcess<T, U> = {
+  [K in keyof U]:
+  K extends keyof T ? DeepNoExcess<Required<T>[K], U[K]> :
+    never
+};
+
+// https://stackoverflow.com/questions/61393505/how-to-define-a-type-and-make-sure-its-part-of-another-type-in-typescript
+export type PartOf<T, U extends DeepPartial<T> & DeepNoExcess<T, U>> = U;
+
+export type BigType = {
+  aaa: string[]
 }
 
-type FormElement = ({
-  type: 'checkbox',
-  config: {
-    checked: boolean
-  }
-} | {
-  type: 'input',
-  config: {
-    text: string
-  }
-}) & {
-  config: CommonConfig
+type SmallType = PartOf<BigType, {
+  aaa: string[]
+}>
+
+const smallType: SmallType = {
+  aaa: ['aaa']
 }
 
-const elements: FormElement[] = [
-  {
-    type: 'checkbox',
-    config: {
-      checked: false,
-      statePath: 'aa'
-    }
-  },
-  {
-    type: 'input',
-    config: {
-      text: 'hello',
-      statePath: 'bb'
-    }
-  },
-]
+console.log(smallType);
 
-console.log(elements)
