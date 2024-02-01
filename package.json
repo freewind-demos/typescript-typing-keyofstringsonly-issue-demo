@@ -3,6 +3,6 @@
     "compile": "tsc ./hello.ts --noEmit"
   },
   "devDependencies": {
-    "typescript": "3.8.3"
+    "typescript": "5.3.3"
   }
 }
